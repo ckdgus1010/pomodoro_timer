@@ -34,6 +34,8 @@ export const GlobalStyle = createGlobalStyle`
         font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
         font-weight: 300;
         line-height: 1;
+        background-color: ${props => props.theme.bgColor};
+        transition: background-color 0.2s ease;
     }
     menu, ol, ul {
         list-style: none;

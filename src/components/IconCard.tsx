@@ -10,8 +10,7 @@ const Outer = styled.div`
     border: 1px solid #f1f3f5;
     border-radius: 25px;
     background-color: white;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15),
-        0 1px 0 rgba(255, 255, 255, 0.6) inset;
+    box-shadow: ${props => props.theme.card.shadow};
     display: flex;
     justify-content: center;
     align-items: center;

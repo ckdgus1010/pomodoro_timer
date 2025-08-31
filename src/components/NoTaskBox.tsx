@@ -3,7 +3,7 @@ import IconCards from "./IconCards";
 
 const Wrapper = styled.div`
     padding: 20px;
-    width: 400px;
+    width: 500px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -11,17 +11,20 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.div`
-    margin-bottom: 20px;
+    margin-bottom: 32px;
     font-weight: 500;
     font-size: 2rem;
+    color: ${props => props.theme.text.title};
+    transition: color 0.2s ease;
 `;
 
 const Message = styled.span`
     margin-bottom: 40px;
-    line-height: 2rem;
+    line-height: 1.6rem;
     font-size: 1.2rem;
     text-align: center;
-    color: #868e96;
+    color: ${props => props.theme.text.normal};
+    transition: color 0.2s ease;
 `;
 
 const Button = styled.button`
@@ -29,17 +32,21 @@ const Button = styled.button`
     cursor: pointer;
     width: 150px;
     height: 50px;
-    background-color: #121612;
+    background-color: ${props => props.theme.button.normal.bg};
+    border: 2px solid ${props => props.theme.button.normal.border};
     border-radius: 25px;
-    color: white;
+    color: ${props => props.theme.button.normal.text};
     font-size: 1.4rem;
     text-align: center;
-
+    transition: color 0.2s ease;
+    
     &:hover {
-        background-color: #1c211a;
+        background-color: ${props => props.theme.button.hover.bg};
+        border-color: ${props => props.theme.button.hover.border};
     }
     &:active {
-        background-color: #0d100e;
+        background-color: ${props => props.theme.button.active.bg};
+        border-color: ${props => props.theme.button.active.border};
     }
 `;
 
@@ -47,9 +54,10 @@ function NoTaskBox() {
     return (
         <Wrapper>
             <IconCards />
-            <Title>You have no task</Title>
+            <Title>What's your focus for today?</Title>
             <Message>
-                Create one now and start tracking your time to get productive!
+                Set your task and get started.<br/>
+                Small steps lead to big progress.
             </Message>
             <Button>Add Task</Button>
         </Wrapper>

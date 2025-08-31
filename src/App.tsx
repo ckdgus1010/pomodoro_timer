@@ -1,5 +1,7 @@
 import { styled } from "styled-components";
 import NoTaskBox from "./components/NoTaskBox";
+import { GlobalStyle } from "./styles/GlobalStyle";
+import { ThemeProvider } from "./contexts/ThemeContext";
 
 const Container = styled.div`
     height: 100vh;
@@ -10,9 +12,12 @@ const Container = styled.div`
 
 function App() {
     return (
-        <Container>
-            <NoTaskBox />
-        </Container>
+        <ThemeProvider>
+            <GlobalStyle />
+            <Container>
+                <NoTaskBox />
+            </Container>
+        </ThemeProvider>
     );
 }
 
