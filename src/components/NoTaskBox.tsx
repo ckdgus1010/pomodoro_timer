@@ -14,6 +14,7 @@ const Title = styled.div`
     margin-bottom: 32px;
     font-weight: 500;
     font-size: 2rem;
+    text-align: center;
     color: ${props => props.theme.text.title};
     transition: color 0.2s ease;
 `;
