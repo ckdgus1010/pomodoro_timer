@@ -3,6 +3,7 @@ import NoTaskBox from "./components/NoTaskBox";
 import { GlobalStyle } from "./styles/GlobalStyle";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Header from "./components/headers/Header";
+import ToDo from "./components/to-do/ToDo";
 
 const Container = styled.div`
     height: 100vh;
@@ -17,7 +18,8 @@ function App() {
             <GlobalStyle />
             <Header />
             <Container>
-                <NoTaskBox />
+                {/* <NoTaskBox /> */}
+                <ToDo />
             </Container>
         </ThemeProvider>
     );
