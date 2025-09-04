@@ -33,12 +33,22 @@ const Button = styled.button`
     }
 `;
 
-function ToDoTimer() {
+interface IProps {
+    timer: number;
+    handleMinus: () => void;
+    handlePlus: () => void;
+}
+
+function ToDoTimer({ timer, handleMinus, handlePlus }: IProps) {
     return (
         <Wrapper>
-            <Button>-</Button>
-            <Timer>25:00</Timer>
-            <Button>+</Button>
+            <Button type="button" onClick={handleMinus}>
+                -
+            </Button>
+            <Timer>{timer}:00</Timer>
+            <Button type="button" onClick={handlePlus}>
+                +
+            </Button>
         </Wrapper>
     );
 }

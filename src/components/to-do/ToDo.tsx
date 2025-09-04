@@ -5,7 +5,7 @@ import ToDoTimer from "./ToDoTimer";
 import delete_white from "../../assets/delete_white.svg";
 import delete_dark from "../../assets/delete_black.svg";
 import { useTheme } from "../../contexts/ThemeContext";
-import { useState } from "react";
+import React, { useState } from "react";
 import { type EmojiClickData } from "emoji-picker-react";
 import EmojiCard from "./EmojiCard";
 
@@ -60,6 +60,11 @@ const Button = styled.button`
 function ToDo() {
     const { darkMode } = useTheme();
     const [emoji, setEmoji] = useState("🧭");
+
+    function selectEmoji(data: EmojiClickData) {
+        setEmoji(data.emoji);
+    }
+
     const [toDo, setToDo] = useState("");
 
     const colors = [
@@ -72,9 +77,13 @@ function ToDo() {
         "#b2bec3",
     ];
     const [color, setColor] = useState(colors[0]);
+    const [timer, setTimer] = useState(25);
+    function minusTimer() {
+        setTimer((prev) => Math.max(15, prev - 1));
+    }
 
-    function selectEmoji(data: EmojiClickData) {
-        setEmoji(data.emoji);
+    function plusTimer() {
+        setTimer((prev) => Math.min(prev + 1, 35));
     }
 
     return (
@@ -92,7 +101,11 @@ function ToDo() {
                 </FormHeader>
                 <ToDoInput toDo={toDo} onChange={setToDo} />
                 <ColorPickers colors={colors} onClick={setColor} />
-                <ToDoTimer />
+                <ToDoTimer
+                    timer={timer}
+                    handleMinus={minusTimer}
+                    handlePlus={plusTimer}
+                />
                 <Buttons>
                     <Button type="button">Cancel</Button>
                     <Button type="submit">Add</Button>
