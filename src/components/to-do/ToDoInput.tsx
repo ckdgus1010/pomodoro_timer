@@ -11,8 +11,21 @@ const Input = styled.input`
     text-align: center;
 `;
 
-function ToDoInput() {
-    return <Input minLength={1} maxLength={15} required></Input>;
+interface IProps {
+    toDo: string;
+    onChange: (value: string) => void;
+}
+
+function ToDoInput({ toDo, onChange }: IProps) {
+    return (
+        <Input
+            minLength={1}
+            maxLength={15}
+            required
+            value={toDo}
+            onChange={(e) => onChange(e.currentTarget.value)}
+        ></Input>
+    );
 }
 
 export default ToDoInput;

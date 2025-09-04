@@ -60,6 +60,7 @@ const Button = styled.button`
 function ToDo() {
     const { darkMode } = useTheme();
     const [emoji, setEmoji] = useState("🧭");
+    const [toDo, setToDo] = useState("");
 
     function selectEmoji(data: EmojiClickData) {
         setEmoji(data.emoji);
@@ -74,7 +75,7 @@ function ToDo() {
                         <img src={darkMode ? delete_white : delete_dark} />
                     </DeleteButton>
                 </FormHeader>
-                <ToDoInput />
+                <ToDoInput toDo={toDo} onChange={setToDo} />
                 <ColorPickers />
                 <ToDoTimer />
                 <Buttons>
