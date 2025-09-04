@@ -62,6 +62,17 @@ function ToDo() {
     const [emoji, setEmoji] = useState("🧭");
     const [toDo, setToDo] = useState("");
 
+    const colors = [
+        "#ff7675",
+        "#fdcb6e",
+        "#00b894",
+        "#0984e3",
+        "#6c5ce7",
+        "#e84393",
+        "#b2bec3",
+    ];
+    const [color, setColor] = useState(colors[0]);
+
     function selectEmoji(data: EmojiClickData) {
         setEmoji(data.emoji);
     }
@@ -70,13 +81,17 @@ function ToDo() {
         <>
             <Form>
                 <FormHeader>
-                    <EmojiCard emoji={emoji} selectEmoji={selectEmoji} />
+                    <EmojiCard
+                        backgroundColor={color}
+                        emoji={emoji}
+                        selectEmoji={selectEmoji}
+                    />
                     <DeleteButton type="button">
                         <img src={darkMode ? delete_white : delete_dark} />
                     </DeleteButton>
                 </FormHeader>
                 <ToDoInput toDo={toDo} onChange={setToDo} />
-                <ColorPickers />
+                <ColorPickers colors={colors} onClick={setColor} />
                 <ToDoTimer />
                 <Buttons>
                     <Button type="button">Cancel</Button>

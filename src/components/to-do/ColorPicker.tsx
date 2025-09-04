@@ -10,10 +10,11 @@ const Wrapper = styled.div<{ $bgColor: string }>`
 
 interface IProps {
     color: string;
+    onClick: (value: string) => void;
 }
 
-function ColorPicker({ color }: IProps) {
-    return <Wrapper $bgColor={color}></Wrapper>;
+function ColorPicker({ color, onClick }: IProps) {
+    return <Wrapper $bgColor={color} onClick={() => onClick(color)} />;
 }
 
 export default ColorPicker;

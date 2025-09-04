@@ -2,6 +2,7 @@ import { styled } from "styled-components";
 import ColorPicker from "./ColorPicker";
 
 const Wrapper = styled.div`
+    cursor: pointer;
     margin-bottom: 20px;
     padding: auto 10px;
     width: 100%;
@@ -12,16 +13,17 @@ const Wrapper = styled.div`
     align-items: center;
 `;
 
-function ColorPickers() {
+interface IProps {
+    colors: string[];
+    onClick: (color: string) => void;
+}
+
+function ColorPickers({ colors, onClick }: IProps) {
     return (
         <Wrapper>
-            <ColorPicker color="red"/>
-            <ColorPicker color="orange"/>
-            <ColorPicker color="yellow"/>
-            <ColorPicker color="green"/>
-            <ColorPicker color="blue"/>
-            <ColorPicker color="purple"/>
-            <ColorPicker color="pink"/>
+            {colors.map((color, idx) => (
+                <ColorPicker key={idx} color={color} onClick={onClick} />
+            ))}
         </Wrapper>
     );
 }
