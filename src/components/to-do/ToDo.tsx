@@ -48,6 +48,7 @@ const Buttons = styled.div`
 
 const Button = styled.button`
     all: unset;
+    cursor: pointer;
     width: 160px;
     height: 50px;
     background-color: ${(props) => props.theme.button.normal.bg};
@@ -55,6 +56,15 @@ const Button = styled.button`
     border-radius: 25px;
     color: ${(props) => props.theme.button.normal.text};
     text-align: center;
+
+    &:hover {
+        background-color: ${(props) => props.theme.button.hover.bg};
+        border-color: ${(props) => props.theme.button.hover.border};
+    }
+    &:active {
+        background-color: ${(props) => props.theme.button.active.bg};
+        border-color: ${(props) => props.theme.button.active.border};
+    }
 `;
 
 function ToDo() {
@@ -86,9 +96,23 @@ function ToDo() {
         setTimer((prev) => Math.min(prev + 1, 35));
     }
 
+    function handleSubmit(event: React.FormEvent) {
+        event.preventDefault();
+        const result = {
+            emoji,
+            toDo,
+            color,
+            timer,
+        };
+
+        localStorage.setItem("task", JSON.stringify(result));
+        
+        // TODO: 타이머 탭으로 전환
+    }
+
     return (
         <>
-            <Form>
+            <Form onSubmit={handleSubmit}>
                 <FormHeader>
                     <EmojiCard
                         backgroundColor={color}
