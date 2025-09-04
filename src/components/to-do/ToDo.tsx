@@ -5,29 +5,21 @@ import ToDoTimer from "./ToDoTimer";
 import delete_white from "../../assets/delete_white.svg";
 import delete_dark from "../../assets/delete_black.svg";
 import { useTheme } from "../../contexts/ThemeContext";
+import { useState } from "react";
+import { type EmojiClickData } from "emoji-picker-react";
+import EmojiCard from "./EmojiCard";
 
-const Wrapper = styled.div`
+const Form = styled.form`
     padding: 20px;
     min-width: 380px;
     border: 1px solid #ccc;
     border-radius: 40px;
 `;
 
-const Top = styled.div`
+const FormHeader = styled.div`
+    position: relative;
     display: flex;
     justify-content: space-between;
-`;
-
-const EmojiCard = styled.div`
-    margin-bottom: 20px;
-    width: 60px;
-    height: 60px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2rem;
 `;
 
 const DeleteButton = styled.button`
@@ -66,23 +58,31 @@ const Button = styled.button`
 `;
 
 function ToDo() {
-    const {darkMode} = useTheme();
+    const { darkMode } = useTheme();
+    const [emoji, setEmoji] = useState("🧭");
+
+    function selectEmoji(data: EmojiClickData) {
+        setEmoji(data.emoji);
+    }
+
     return (
-        <Wrapper>
-            <Top>
-                <EmojiCard>😀</EmojiCard>
-                <DeleteButton>
-                    <img src={darkMode ? delete_white : delete_dark} />
-                </DeleteButton>
-            </Top>
-            <ToDoInput />
-            <ColorPickers />
-            <ToDoTimer />
-            <Buttons>
-                <Button>Cancel</Button>
-                <Button>Add</Button>
-            </Buttons>
-        </Wrapper>
+        <>
+            <Form>
+                <FormHeader>
+                    <EmojiCard emoji={emoji} selectEmoji={selectEmoji} />
+                    <DeleteButton type="button">
+                        <img src={darkMode ? delete_white : delete_dark} />
+                    </DeleteButton>
+                </FormHeader>
+                <ToDoInput />
+                <ColorPickers />
+                <ToDoTimer />
+                <Buttons>
+                    <Button type="button">Cancel</Button>
+                    <Button type="submit">Add</Button>
+                </Buttons>
+            </Form>
+        </>
     );
 }
 
