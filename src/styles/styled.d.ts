@@ -23,6 +23,21 @@ declare module "styled-components" {
                 border: string;
             };
         };
+        accentButton: {
+            normal: {
+                bg: string;
+                border: string;
+                text: string;
+            };
+            hover: {
+                bg: string;
+                border: string;
+            };
+            active: {
+                bg: string;
+                border: string;
+            };
+        }
         card: {
             shadow: string;
         }
