@@ -7,6 +7,7 @@ import ToDo from "./components/to-do/ToDo";
 import { useAtomValue } from "jotai";
 import { tabAtom } from "./atoms/tabAtom";
 import { Tabs } from "./enums/tabs";
+import ToDoTimer from "./components/to-do-timer/ToDoTimer";
 
 const Container = styled.div`
     height: 100vh;
@@ -23,8 +24,9 @@ function App() {
             <GlobalStyle />
             <Header />
             <Container>
-                {currentTab === Tabs.Home && <NoTaskBox />}
-                {currentTab === Tabs.Task && <ToDo />}
+                {/* {currentTab === Tabs.Home && <NoTaskBox />}
+                {currentTab === Tabs.Task && <ToDo />} */}
+                <ToDoTimer />
             </Container>
         </ThemeProvider>
     );
