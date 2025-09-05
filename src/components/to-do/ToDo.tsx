@@ -8,6 +8,9 @@ import { useTheme } from "../../contexts/ThemeContext";
 import React, { useState } from "react";
 import { type EmojiClickData } from "emoji-picker-react";
 import EmojiCard from "./EmojiCard";
+import { useSetAtom } from "jotai";
+import { tabAtom } from "../../atoms/tabAtom";
+import { Tabs } from "../../enums/tabs";
 
 const Form = styled.form`
     padding: 20px;
@@ -69,6 +72,18 @@ const Button = styled.button`
 
 function ToDo() {
     const { darkMode } = useTheme();
+    const setCurrentTab = useSetAtom(tabAtom);
+
+    function onClickCancelBtn() {
+        const item = localStorage.getItem("task");
+        if (item) {
+            // TODO: 타이머 탭으로 전환
+            console.log("타이머 탭으로 전환");
+        } else {
+            setCurrentTab(Tabs.Home);
+        }
+    }
+
     const [emoji, setEmoji] = useState("🧭");
 
     function selectEmoji(data: EmojiClickData) {
@@ -106,7 +121,7 @@ function ToDo() {
         };
 
         localStorage.setItem("task", JSON.stringify(result));
-        
+
         // TODO: 타이머 탭으로 전환
     }
 
@@ -131,7 +146,9 @@ function ToDo() {
                     handlePlus={plusTimer}
                 />
                 <Buttons>
-                    <Button type="button">Cancel</Button>
+                    <Button type="button" onClick={onClickCancelBtn}>
+                        Cancel
+                    </Button>
                     <Button type="submit">Add</Button>
                 </Buttons>
             </Form>
