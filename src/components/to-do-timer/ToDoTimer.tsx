@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Button from "./Button";
+import { useEffect, useRef, useState } from "react";
 
 const Wrapper = styled.div`
     display: flex;
@@ -55,19 +56,68 @@ const Buttons = styled.div`
 `;
 
 function ToDoTimer() {
+    let timer;
+    try {
+        const task = JSON.parse(localStorage.getItem("task") || "");
+        timer = parseInt(task["timer"]);
+    } catch (err) {
+        alert("데이터를 불러올 수 없습니다.");
+        return;
+    }
+
+    const [seconds, setSeconds] = useState(timer * 60);
+    const [isRunning, setIsRunning] = useState(true);
+    const timerId = useRef<number | undefined>(undefined);
+
+    useEffect(() => {
+        if (!isRunning) {
+            return;
+        }
+
+        timerId.current = setInterval(() => {
+            setSeconds((prev) => {
+                if (prev <= 1) {
+                    finishTimer();
+                    return 0;
+                }
+
+                return prev - 1;
+            });
+        }, 1000);
+
+        return () => clearInterval(timerId.current);
+    }, [isRunning]);
+
+    function handlePauseTimer() {
+        setIsRunning((prev) => !prev);
+    }
+
+    function cancelTimer() {
+        setIsRunning(false);
+
+        // TODO: 이전 화면으로 돌아가기
+        console.log("이전 화면으로 돌아가기");
+    }
+
+    function finishTimer() {
+        clearInterval(timerId.current);
+        setIsRunning(false);
+        setSeconds(0);
+    }
+
     return (
         <Wrapper>
-            <FinishBtn>finish</FinishBtn>
+            <FinishBtn onClick={finishTimer}>finish</FinishBtn>
             <Tab>
-                <Timer>25:00</Timer>
+                <Timer>
+                    {String(Math.floor(seconds / 60)).padStart(2, "0")}:
+                    {String(seconds % 60).padStart(2, "0")}
+                </Timer>
                 <Buttons>
+                    <Button text={"Cancel"} onClick={cancelTimer} />
                     <Button
-                        text={"Cancel"}
-                        onClick={() => console.log("Cancel")}
-                    />
-                    <Button
-                        text={"Pause"}
-                        onClick={() => console.log("Pause")}
+                        text={isRunning ? "Pause" : "Restart"}
+                        onClick={handlePauseTimer}
                     />
                 </Buttons>
             </Tab>

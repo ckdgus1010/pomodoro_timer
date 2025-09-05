@@ -24,9 +24,9 @@ function App() {
             <GlobalStyle />
             <Header />
             <Container>
-                {/* {currentTab === Tabs.Home && <NoTaskBox />}
-                {currentTab === Tabs.Task && <ToDo />} */}
-                <ToDoTimer />
+                {currentTab === Tabs.Home && <NoTaskBox />}
+                {currentTab === Tabs.Task && <ToDo />}
+                {currentTab === Tabs.ToDoTimer && <ToDoTimer />}
             </Container>
         </ThemeProvider>
     );
