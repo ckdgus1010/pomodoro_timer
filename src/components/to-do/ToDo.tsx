@@ -11,6 +11,7 @@ import EmojiCard from "./EmojiCard";
 import { useSetAtom } from "jotai";
 import { tabAtom } from "../../atoms/tabAtom";
 import { Tabs } from "../../enums/tabs";
+import { loadTask } from "../../utils/utils";
 
 const Form = styled.form`
     padding: 20px;
@@ -74,24 +75,6 @@ function ToDo() {
     const { darkMode } = useTheme();
     const setCurrentTab = useSetAtom(tabAtom);
 
-    function onClickCancelBtn() {
-        const item = localStorage.getItem("task");
-        if (item) {
-            // TODO: 타이머 탭으로 전환
-            console.log("타이머 탭으로 전환");
-        } else {
-            setCurrentTab(Tabs.Home);
-        }
-    }
-
-    const [emoji, setEmoji] = useState("🧭");
-
-    function selectEmoji(data: EmojiClickData) {
-        setEmoji(data.emoji);
-    }
-
-    const [toDo, setToDo] = useState("");
-
     const colors = [
         "#ff7675",
         "#fdcb6e",
@@ -101,14 +84,40 @@ function ToDo() {
         "#e84393",
         "#b2bec3",
     ];
-    const [color, setColor] = useState(colors[0]);
-    const [timer, setTimer] = useState(25);
+
+    let task = loadTask();
+    
+    if (!task) {
+        task = {
+            emoji: "🧭",
+            toDo: "",
+            color: colors[0],
+            timer: 25
+        }
+    }
+
+    const [emoji, setEmoji] = useState(task["emoji"]);
+    const [toDo, setToDo] = useState(task["toDo"]);
+    const [color, setColor] = useState(task["color"]);
+    const [timer, setTimer] = useState(task["timer"]);
+
+    function selectEmoji(data: EmojiClickData) {
+        setEmoji(data.emoji);
+    }
+
     function minusTimer() {
         setTimer((prev) => Math.max(15, prev - 1));
     }
 
     function plusTimer() {
         setTimer((prev) => Math.min(prev + 1, 35));
+    }
+
+    function onClickCancelBtn() {
+        const item = localStorage.getItem("task");
+        const tab = item ? Tabs.Summary : Tabs.Home;
+        
+        setCurrentTab(tab);
     }
 
     function handleSubmit(event: React.FormEvent) {
@@ -121,8 +130,7 @@ function ToDo() {
         };
 
         localStorage.setItem("task", JSON.stringify(result));
-
-        // TODO: 타이머 탭으로 전환
+        setCurrentTab(Tabs.Summary);
     }
 
     return (
@@ -130,6 +138,7 @@ function ToDo() {
             <Form onSubmit={handleSubmit}>
                 <FormHeader>
                     <EmojiCard
+                        isClickable={true}
                         backgroundColor={color}
                         emoji={emoji}
                         selectEmoji={selectEmoji}
