@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import Button from "./Button";
 import { useEffect, useRef, useState } from "react";
+import { loadTask } from "../../utils/utils";
+import { useSetAtom } from "jotai";
+import { tabAtom } from "../../atoms/tabAtom";
+import { Tabs } from "../../enums/tabs";
 
 const Wrapper = styled.div`
     display: flex;
@@ -56,14 +60,18 @@ const Buttons = styled.div`
 `;
 
 function ToDoTimer() {
-    let timer;
-    try {
-        const task = JSON.parse(localStorage.getItem("task") || "");
-        timer = parseInt(task["timer"]);
-    } catch (err) {
+    const setCurrentTab = useSetAtom(tabAtom);
+
+    const task = loadTask();
+
+    if (!task) {
         alert("데이터를 불러올 수 없습니다.");
+        setCurrentTab(Tabs.Home);
+
         return;
     }
+
+    const timer = task["timer"];
 
     const [seconds, setSeconds] = useState(timer * 60);
     const [isRunning, setIsRunning] = useState(true);
@@ -93,10 +101,8 @@ function ToDoTimer() {
     }
 
     function cancelTimer() {
-        setIsRunning(false);
-
-        // TODO: 이전 화면으로 돌아가기
-        console.log("이전 화면으로 돌아가기");
+        finishTimer();
+        setCurrentTab(Tabs.Summary);
     }
 
     function finishTimer() {
