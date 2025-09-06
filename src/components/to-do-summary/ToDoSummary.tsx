@@ -97,6 +97,7 @@ function ToDoSummary() {
         <Wrapper>
             <Header>
                 <EmojiCard
+                    isClickable={false}
                     backgroundColor={task["color"]}
                     emoji={task["emoji"]}
                     selectEmoji={undefined}

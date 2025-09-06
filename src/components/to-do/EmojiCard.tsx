@@ -2,8 +2,8 @@ import { useState } from "react";
 import { styled } from "styled-components";
 import EmojiPicker, { type EmojiClickData } from "emoji-picker-react";
 
-const Card = styled.div<{ $bgColor: string }>`
-    cursor: pointer;
+const Card = styled.div<{ $isClickable: boolean; $bgColor: string }>`
+    cursor: ${(props) => (props.$isClickable ? "pointer" : "unset")};
     margin-bottom: 20px;
     width: 60px;
     height: 60px;
@@ -29,12 +29,18 @@ const EmojiPickerBackground = styled.div`
 `;
 
 interface IProp {
+    isClickable: boolean;
     backgroundColor: string;
     emoji: string;
     selectEmoji: ((data: EmojiClickData) => void) | undefined;
 }
 
-function EmojiCard({ backgroundColor, emoji, selectEmoji }: IProp) {
+function EmojiCard({
+    isClickable,
+    backgroundColor,
+    emoji,
+    selectEmoji,
+}: IProp) {
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
     function handleEmojiPicker() {
@@ -43,7 +49,11 @@ function EmojiCard({ backgroundColor, emoji, selectEmoji }: IProp) {
 
     return (
         <>
-            <Card onClick={handleEmojiPicker} $bgColor={backgroundColor}>
+            <Card
+                onClick={isClickable ? handleEmojiPicker : undefined}
+                $isClickable={isClickable}
+                $bgColor={backgroundColor}
+            >
                 <span>{emoji}</span>
             </Card>
             {showEmojiPicker && (

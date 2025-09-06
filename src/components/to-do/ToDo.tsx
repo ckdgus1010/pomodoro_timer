@@ -130,6 +130,7 @@ function ToDo() {
             <Form onSubmit={handleSubmit}>
                 <FormHeader>
                     <EmojiCard
+                        isClickable={true}
                         backgroundColor={color}
                         emoji={emoji}
                         selectEmoji={selectEmoji}
