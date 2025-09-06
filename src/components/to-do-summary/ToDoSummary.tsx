@@ -6,6 +6,7 @@ import delete_dark from "../../assets/delete_black.svg";
 import { useSetAtom } from "jotai";
 import { tabAtom } from "../../atoms/tabAtom";
 import { Tabs } from "../../enums/tabs";
+import { loadTask } from "../../utils/utils";
 
 const Wrapper = styled.div`
     padding: 20px;
@@ -77,10 +78,9 @@ function ToDoSummary() {
     const { darkMode } = useTheme();
     const setCurrentTab = useSetAtom(tabAtom);
 
-    let task;
-    try {
-        task = JSON.parse(localStorage.getItem("task") || "");
-    } catch (err) {
+    const task = loadTask();
+    
+    if (!task) {
         alert("데이터를 불러올 수 없습니다.");
         return;
     }
@@ -95,7 +95,7 @@ function ToDoSummary() {
     }
 
     function editTask() {
-        console.log("edit task");
+        setCurrentTab(Tabs.Task);
     }
 
     return (
