@@ -31,7 +31,7 @@ const EmojiPickerBackground = styled.div`
 interface IProp {
     backgroundColor: string;
     emoji: string;
-    selectEmoji: (data: EmojiClickData) => void;
+    selectEmoji: ((data: EmojiClickData) => void) | undefined;
 }
 
 function EmojiCard({ backgroundColor, emoji, selectEmoji }: IProp) {
