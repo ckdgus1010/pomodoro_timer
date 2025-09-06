@@ -3,6 +3,9 @@ import { useTheme } from "../../contexts/ThemeContext";
 import EmojiCard from "../to-do/EmojiCard";
 import delete_white from "../../assets/delete_white.svg";
 import delete_dark from "../../assets/delete_black.svg";
+import { useSetAtom } from "jotai";
+import { tabAtom } from "../../atoms/tabAtom";
+import { Tabs } from "../../enums/tabs";
 
 const Wrapper = styled.div`
     padding: 20px;
@@ -72,6 +75,7 @@ const Button = styled.button`
 
 function ToDoSummary() {
     const { darkMode } = useTheme();
+    const setCurrentTab = useSetAtom(tabAtom);
 
     let task;
     try {
@@ -82,7 +86,8 @@ function ToDoSummary() {
     }
 
     function deleteTask() {
-        console.log("delete task.");
+        localStorage.removeItem("task");
+        setCurrentTab(Tabs.Home);
     }
 
     function startTask() {

@@ -77,8 +77,7 @@ function ToDo() {
     function onClickCancelBtn() {
         const item = localStorage.getItem("task");
         if (item) {
-            // TODO: 타이머 탭으로 전환
-            console.log("타이머 탭으로 전환");
+            setCurrentTab(Tabs.Summary);
         } else {
             setCurrentTab(Tabs.Home);
         }
@@ -121,8 +120,7 @@ function ToDo() {
         };
 
         localStorage.setItem("task", JSON.stringify(result));
-
-        // TODO: 타이머 탭으로 전환
+        setCurrentTab(Tabs.Summary);
     }
 
     return (
