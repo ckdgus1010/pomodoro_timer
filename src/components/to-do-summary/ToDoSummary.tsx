@@ -91,7 +91,7 @@ function ToDoSummary() {
     }
 
     function startTask() {
-        console.log("start task");
+        setCurrentTab(Tabs.ToDoTimer);
     }
 
     function editTask() {
