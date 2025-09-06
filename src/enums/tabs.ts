@@ -1,4 +1,5 @@
 export const Tabs = {
+    None: "none",
     Home: "no task",
     Task: "task",
     Summary: "summary",
