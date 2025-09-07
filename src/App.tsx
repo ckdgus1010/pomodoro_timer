@@ -11,6 +11,7 @@ import ToDoTimer from "./components/to-do-timer/ToDoTimer";
 import ToDoSummary from "./components/to-do-summary/ToDoSummary";
 import { loadTask } from "./utils/utils";
 import { useEffect } from "react";
+import RestTimer from "./components/rest-timer/RestTimer";
 
 const Container = styled.div`
     height: 100vh;
@@ -34,10 +35,11 @@ function App() {
             <GlobalStyle />
             <Header />
             <Container>
-                {currentTab === Tabs.Home && <NoTaskBox />}
+                {/* {currentTab === Tabs.Home && <NoTaskBox />}
                 {currentTab === Tabs.Task && <ToDo />}
                 {currentTab === Tabs.Summary && <ToDoSummary />}
-                {currentTab === Tabs.ToDoTimer && <ToDoTimer />}
+                {currentTab === Tabs.ToDoTimer && <ToDoTimer />} */}
+                <RestTimer />
             </Container>
         </ThemeProvider>
     );
