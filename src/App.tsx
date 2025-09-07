@@ -4,7 +4,7 @@ import { GlobalStyle } from "./styles/GlobalStyle";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Header from "./components/headers/Header";
 import ToDo from "./components/to-do/ToDo";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import { tabAtom } from "./atoms/tabAtom";
 import { Tabs } from "./enums/tabs";
 import ToDoTimer from "./components/to-do-timer/ToDoTimer";
@@ -35,11 +35,12 @@ function App() {
             <GlobalStyle />
             <Header />
             <Container>
-                {/* {currentTab === Tabs.Home && <NoTaskBox />}
+                {currentTab === Tabs.Home && <NoTaskBox />}
                 {currentTab === Tabs.Task && <ToDo />}
                 {currentTab === Tabs.Summary && <ToDoSummary />}
-                {currentTab === Tabs.ToDoTimer && <ToDoTimer />} */}
-                <RestTimer />
+                {(currentTab === Tabs.ToDoTimer ||
+                    currentTab === Tabs.RestTimer) && <ToDoTimer />}
+                {currentTab === Tabs.RestSetting && <RestTimer />}
             </Container>
         </ThemeProvider>
     );

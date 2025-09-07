@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Button from "./Button";
 import { useEffect, useRef, useState } from "react";
 import { loadTask } from "../../utils/taskUtils";
-import { useSetAtom } from "jotai";
+import { useAtom } from "jotai";
 import { tabAtom } from "../../atoms/tabAtom";
 import { Tabs } from "../../enums/tabs";
 
@@ -60,7 +60,7 @@ const Buttons = styled.div`
 `;
 
 function ToDoTimer() {
-    const setCurrentTab = useSetAtom(tabAtom);
+    const [currentTab, setCurrentTab] = useAtom(tabAtom);
 
     const task = loadTask();
 
@@ -71,7 +71,8 @@ function ToDoTimer() {
         return;
     }
 
-    const timer = task["timer"]["task"];
+    const timerType = currentTab === Tabs.ToDoTimer ? "task" : "rest";
+    const timer = task["timer"][timerType];
 
     const [seconds, setSeconds] = useState(timer * 60);
     const [isRunning, setIsRunning] = useState(true);
@@ -84,7 +85,9 @@ function ToDoTimer() {
 
         timerId.current = setInterval(() => {
             setSeconds((prev) => {
-                if (prev <= 1) {
+                if (prev === 1) {
+                    return 0;
+                } else if (prev === 0) {
                     finishTimer();
                     return 0;
                 }
@@ -101,14 +104,22 @@ function ToDoTimer() {
     }
 
     function cancelTimer() {
-        finishTimer();
+        stopTimer();
         setCurrentTab(Tabs.Summary);
     }
 
-    function finishTimer() {
+    function stopTimer() {
         clearInterval(timerId.current);
         setIsRunning(false);
         setSeconds(0);
+    }
+
+    function finishTimer() {
+        stopTimer();
+
+        const tabName =
+            currentTab === Tabs.ToDoTimer ? Tabs.RestSetting : Tabs.Summary;
+        setCurrentTab(tabName);
     }
 
     return (

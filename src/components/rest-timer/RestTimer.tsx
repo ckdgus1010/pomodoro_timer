@@ -61,9 +61,7 @@ function RestTimer() {
         return;
     }
 
-    const initail = task["timer"]["rest"];
-
-    const [restTimer, setRestTimer] = useState(initail ? initail : 5);
+    const [restTimer, setRestTimer] = useState(5);
     const setCurrentTab = useSetAtom(tabAtom);
 
     function minusTimer() {
@@ -84,6 +82,7 @@ function RestTimer() {
         if (task) {
             task["timer"]["rest"] = restTimer;
             saveTask(task);
+            setCurrentTab(Tabs.RestTimer);
         } else {
             setCurrentTab(Tabs.Home);
         }
