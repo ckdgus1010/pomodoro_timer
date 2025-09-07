@@ -4,13 +4,14 @@ import { GlobalStyle } from "./styles/GlobalStyle";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Header from "./components/headers/Header";
 import ToDo from "./components/to-do/ToDo";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import { tabAtom } from "./atoms/tabAtom";
 import { Tabs } from "./enums/tabs";
 import ToDoTimer from "./components/to-do-timer/ToDoTimer";
 import ToDoSummary from "./components/to-do-summary/ToDoSummary";
-import { loadTask } from "./utils/utils";
+import { loadTask } from "./utils/taskUtils";
 import { useEffect } from "react";
+import RestTimer from "./components/rest-timer/RestTimer";
 
 const Container = styled.div`
     height: 100vh;
@@ -37,7 +38,9 @@ function App() {
                 {currentTab === Tabs.Home && <NoTaskBox />}
                 {currentTab === Tabs.Task && <ToDo />}
                 {currentTab === Tabs.Summary && <ToDoSummary />}
-                {currentTab === Tabs.ToDoTimer && <ToDoTimer />}
+                {(currentTab === Tabs.ToDoTimer ||
+                    currentTab === Tabs.RestTimer) && <ToDoTimer />}
+                {currentTab === Tabs.RestSetting && <RestTimer />}
             </Container>
         </ThemeProvider>
     );

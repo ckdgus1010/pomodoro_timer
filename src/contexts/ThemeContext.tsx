@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import { ThemeProvider as StyledThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "../styles/theme";
+import { loadTheme, saveTheme } from "../utils/darkModeUtils";
 
 type ThemeContextType = {
     darkMode: boolean;
@@ -10,8 +11,13 @@ type ThemeContextType = {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-    const [darkMode, setDarkMode] = useState(false);
-    const toggleDarkMode = () => setDarkMode((current) => !current);
+    const isDarkMode = loadTheme();
+    const [darkMode, setDarkMode] = useState(isDarkMode);
+    const toggleDarkMode = () =>
+        setDarkMode((current) => {
+            saveTheme(!current);
+            return !current;
+        });
 
     return (
         <ThemeContext.Provider value={{ darkMode, toggleDarkMode }}>

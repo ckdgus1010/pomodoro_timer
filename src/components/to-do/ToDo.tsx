@@ -2,45 +2,24 @@ import { styled } from "styled-components";
 import ToDoInput from "./ToDoInput";
 import ColorPickers from "./ColorPickers";
 import ToDoTimer from "./ToDoTimer";
-import delete_white from "../../assets/delete_white.svg";
-import delete_dark from "../../assets/delete_black.svg";
-import { useTheme } from "../../contexts/ThemeContext";
 import React, { useState } from "react";
 import { type EmojiClickData } from "emoji-picker-react";
 import EmojiCard from "./EmojiCard";
 import { useSetAtom } from "jotai";
 import { tabAtom } from "../../atoms/tabAtom";
 import { Tabs } from "../../enums/tabs";
-import { loadTask } from "../../utils/utils";
+import {
+    colors,
+    getDefaultTask,
+    loadTask,
+    saveTask,
+} from "../../utils/taskUtils";
 
 const Form = styled.form`
     padding: 20px;
     min-width: 380px;
     border: 1px solid #ccc;
     border-radius: 40px;
-`;
-
-const FormHeader = styled.div`
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-`;
-
-const DeleteButton = styled.button`
-    all: unset;
-    width: 40px;
-    height: 40px;
-    color: ${(props) => props.theme.button.normal.text};
-    text-align: center;
-    border-radius: 10px;
-    background-color: transparent;
-
-    &:hover {
-        background-color: ${(props) => props.theme.button.normal.bg};
-    }
-    &:active {
-        background-color: ${(props) => props.theme.button.active.bg};
-    }
 `;
 
 const Buttons = styled.div`
@@ -72,34 +51,18 @@ const Button = styled.button`
 `;
 
 function ToDo() {
-    const { darkMode } = useTheme();
     const setCurrentTab = useSetAtom(tabAtom);
 
-    const colors = [
-        "#ff7675",
-        "#fdcb6e",
-        "#00b894",
-        "#0984e3",
-        "#6c5ce7",
-        "#e84393",
-        "#b2bec3",
-    ];
-
     let task = loadTask();
-    
+
     if (!task) {
-        task = {
-            emoji: "🧭",
-            toDo: "",
-            color: colors[0],
-            timer: 25
-        }
+        task = getDefaultTask();
     }
 
     const [emoji, setEmoji] = useState(task["emoji"]);
     const [toDo, setToDo] = useState(task["toDo"]);
     const [color, setColor] = useState(task["color"]);
-    const [timer, setTimer] = useState(task["timer"]);
+    const [timer, setTimer] = useState(task["timer"]["task"]);
 
     function selectEmoji(data: EmojiClickData) {
         setEmoji(data.emoji);
@@ -114,9 +77,9 @@ function ToDo() {
     }
 
     function onClickCancelBtn() {
-        const item = localStorage.getItem("task");
-        const tab = item ? Tabs.Summary : Tabs.Home;
-        
+        const task = loadTask();
+        const tab = task ? Tabs.Summary : Tabs.Home;
+
         setCurrentTab(tab);
     }
 
@@ -126,27 +89,25 @@ function ToDo() {
             emoji,
             toDo,
             color,
-            timer,
+            timer: {
+                task: timer,
+                rest: 5,
+            },
         };
 
-        localStorage.setItem("task", JSON.stringify(result));
+        saveTask(result);
         setCurrentTab(Tabs.Summary);
     }
 
     return (
         <>
             <Form onSubmit={handleSubmit}>
-                <FormHeader>
-                    <EmojiCard
-                        isClickable={true}
-                        backgroundColor={color}
-                        emoji={emoji}
-                        selectEmoji={selectEmoji}
-                    />
-                    <DeleteButton type="button">
-                        <img src={darkMode ? delete_white : delete_dark} />
-                    </DeleteButton>
-                </FormHeader>
+                <EmojiCard
+                    isClickable={true}
+                    backgroundColor={color}
+                    emoji={emoji}
+                    selectEmoji={selectEmoji}
+                />
                 <ToDoInput toDo={toDo} onChange={setToDo} />
                 <ColorPickers colors={colors} onClick={setColor} />
                 <ToDoTimer

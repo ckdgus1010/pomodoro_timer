@@ -17,6 +17,7 @@ const Timer = styled.div`
 
 const Button = styled.button`
     all: unset;
+    cursor: pointer;
     width: 40px;
     height: 40px;
     color: ${(props) => props.theme.button.normal.text};

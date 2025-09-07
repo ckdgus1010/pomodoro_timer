@@ -6,7 +6,7 @@ import delete_dark from "../../assets/delete_black.svg";
 import { useSetAtom } from "jotai";
 import { tabAtom } from "../../atoms/tabAtom";
 import { Tabs } from "../../enums/tabs";
-import { loadTask } from "../../utils/utils";
+import { deleteTask, loadTask } from "../../utils/taskUtils";
 
 const Wrapper = styled.div`
     padding: 20px;
@@ -85,8 +85,8 @@ function ToDoSummary() {
         return;
     }
 
-    function deleteTask() {
-        localStorage.removeItem("task");
+    function removeTask() {
+        deleteTask();
         setCurrentTab(Tabs.Home);
     }
 
@@ -107,13 +107,13 @@ function ToDoSummary() {
                     emoji={task["emoji"]}
                     selectEmoji={undefined}
                 />
-                <DeleteButton onClick={deleteTask}>
+                <DeleteButton onClick={removeTask}>
                     <img src={darkMode ? delete_white : delete_dark} />
                 </DeleteButton>
             </Header>
             <Summary>
                 <span>
-                    {task["toDo"]} for {task["timer"]} minutes
+                    {task["toDo"]} for {task["timer"]["task"]} minutes
                 </span>
             </Summary>
             <Buttons>
