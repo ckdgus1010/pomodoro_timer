@@ -6,7 +6,7 @@ import delete_dark from "../../assets/delete_black.svg";
 import { useSetAtom } from "jotai";
 import { tabAtom } from "../../atoms/tabAtom";
 import { Tabs } from "../../enums/tabs";
-import { loadTask } from "../../utils/utils";
+import { loadTask } from "../../utils/taskUtils";
 
 const Wrapper = styled.div`
     padding: 20px;
@@ -86,7 +86,7 @@ function ToDoSummary() {
     }
 
     function deleteTask() {
-        localStorage.removeItem("task");
+        deleteTask();
         setCurrentTab(Tabs.Home);
     }
 
@@ -113,7 +113,7 @@ function ToDoSummary() {
             </Header>
             <Summary>
                 <span>
-                    {task["toDo"]} for {task["timer"]} minutes
+                    {task["toDo"]} for {task["timer"]["task"]} minutes
                 </span>
             </Summary>
             <Buttons>

@@ -11,7 +11,7 @@ import EmojiCard from "./EmojiCard";
 import { useSetAtom } from "jotai";
 import { tabAtom } from "../../atoms/tabAtom";
 import { Tabs } from "../../enums/tabs";
-import { loadTask } from "../../utils/utils";
+import { colors, getDefaultTask, loadTask, saveTask } from "../../utils/taskUtils";
 
 const Form = styled.form`
     padding: 20px;
@@ -75,31 +75,16 @@ function ToDo() {
     const { darkMode } = useTheme();
     const setCurrentTab = useSetAtom(tabAtom);
 
-    const colors = [
-        "#ff7675",
-        "#fdcb6e",
-        "#00b894",
-        "#0984e3",
-        "#6c5ce7",
-        "#e84393",
-        "#b2bec3",
-    ];
-
     let task = loadTask();
     
     if (!task) {
-        task = {
-            emoji: "🧭",
-            toDo: "",
-            color: colors[0],
-            timer: 25
-        }
+        task = getDefaultTask();
     }
 
     const [emoji, setEmoji] = useState(task["emoji"]);
     const [toDo, setToDo] = useState(task["toDo"]);
     const [color, setColor] = useState(task["color"]);
-    const [timer, setTimer] = useState(task["timer"]);
+    const [timer, setTimer] = useState(task["timer"]["task"]);
 
     function selectEmoji(data: EmojiClickData) {
         setEmoji(data.emoji);
@@ -114,8 +99,8 @@ function ToDo() {
     }
 
     function onClickCancelBtn() {
-        const item = localStorage.getItem("task");
-        const tab = item ? Tabs.Summary : Tabs.Home;
+        const task = loadTask();
+        const tab = task ? Tabs.Summary : Tabs.Home;
         
         setCurrentTab(tab);
     }
@@ -126,10 +111,13 @@ function ToDo() {
             emoji,
             toDo,
             color,
-            timer,
+            timer: {
+                task: timer,
+                rest: 5
+            },
         };
 
-        localStorage.setItem("task", JSON.stringify(result));
+        saveTask(result);
         setCurrentTab(Tabs.Summary);
     }
 

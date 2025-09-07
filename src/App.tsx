@@ -9,7 +9,7 @@ import { tabAtom } from "./atoms/tabAtom";
 import { Tabs } from "./enums/tabs";
 import ToDoTimer from "./components/to-do-timer/ToDoTimer";
 import ToDoSummary from "./components/to-do-summary/ToDoSummary";
-import { loadTask } from "./utils/utils";
+import { loadTask } from "./utils/taskUtils";
 import { useEffect } from "react";
 import RestTimer from "./components/rest-timer/RestTimer";
 

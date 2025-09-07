@@ -1,6 +1,10 @@
 import { styled } from "styled-components";
 import ToDoTimer from "../to-do/ToDoTimer";
 import { useState } from "react";
+import { useSetAtom } from "jotai";
+import { tabAtom } from "../../atoms/tabAtom";
+import { Tabs } from "../../enums/tabs";
+import { loadTask, saveTask } from "../../utils/taskUtils";
 
 const Wrapper = styled.div`
     padding: 20px;
@@ -20,6 +24,7 @@ const Title = styled.h3`
 const Message = styled.span`
     display: block;
     text-align: center;
+    color: ${(props) => props.theme.text.normal};
 `;
 
 const Buttons = styled.div`
@@ -51,7 +56,15 @@ const Button = styled.button`
 `;
 
 function RestTimer() {
-    const [restTimer, setRestTimer] = useState(5);
+    const task = loadTask();
+    if (!task) {
+        return;
+    }
+
+    const initail = task["timer"]["rest"];
+
+    const [restTimer, setRestTimer] = useState(initail ? initail : 5);
+    const setCurrentTab = useSetAtom(tabAtom);
 
     function minusTimer() {
         setRestTimer((prev) => Math.max(1, prev - 1));
@@ -62,11 +75,18 @@ function RestTimer() {
     }
 
     function cancel() {
-        console.log("cancel");
+        setCurrentTab(Tabs.Summary);
     }
 
     function startTimer() {
-        console.log("start timer");
+        const task = loadTask();
+        
+        if (task) {
+            task["timer"]["rest"] = restTimer;
+            saveTask(task);
+        } else {
+            setCurrentTab(Tabs.Home);
+        }
     }
 
     return (

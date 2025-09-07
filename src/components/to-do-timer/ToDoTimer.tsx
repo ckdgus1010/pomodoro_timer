@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Button from "./Button";
 import { useEffect, useRef, useState } from "react";
-import { loadTask } from "../../utils/utils";
+import { loadTask } from "../../utils/taskUtils";
 import { useSetAtom } from "jotai";
 import { tabAtom } from "../../atoms/tabAtom";
 import { Tabs } from "../../enums/tabs";
@@ -71,7 +71,7 @@ function ToDoTimer() {
         return;
     }
 
-    const timer = task["timer"];
+    const timer = task["timer"]["task"];
 
     const [seconds, setSeconds] = useState(timer * 60);
     const [isRunning, setIsRunning] = useState(true);
