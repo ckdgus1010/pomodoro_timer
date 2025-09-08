@@ -1,5 +1,49 @@
+import { styled } from "styled-components";
+import NoTaskBox from "./components/NoTaskBox";
+import { GlobalStyle } from "./styles/GlobalStyle";
+import { ThemeProvider } from "./contexts/ThemeContext";
+import Header from "./components/headers/Header";
+import ToDo from "./components/to-do/ToDo";
+import { useAtom } from "jotai";
+import { tabAtom } from "./atoms/tabAtom";
+import { Tabs } from "./enums/tabs";
+import ToDoTimer from "./components/to-do-timer/ToDoTimer";
+import ToDoSummary from "./components/to-do-summary/ToDoSummary";
+import { loadTask } from "./utils/taskUtils";
+import { useEffect } from "react";
+import RestTimer from "./components/rest-timer/RestTimer";
+
+const Container = styled.div`
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
 function App() {
-  return null
+    const [currentTab, setCurrentTab] = useAtom(tabAtom);
+
+    useEffect(() => {
+        const task = loadTask();
+        const tab = task ? Tabs.Summary : Tabs.Home;
+
+        setCurrentTab(tab);
+    }, []);
+
+    return (
+        <ThemeProvider>
+            <GlobalStyle />
+            <Header />
+            <Container>
+                {currentTab === Tabs.Home && <NoTaskBox />}
+                {currentTab === Tabs.Task && <ToDo />}
+                {currentTab === Tabs.Summary && <ToDoSummary />}
+                {(currentTab === Tabs.ToDoTimer ||
+                    currentTab === Tabs.RestTimer) && <ToDoTimer />}
+                {currentTab === Tabs.RestSetting && <RestTimer />}
+            </Container>
+        </ThemeProvider>
+    );
 }
 
-export default App
+export default App;
